@@ -1,78 +1,165 @@
 ---
-name: ai-text-audit
-description: Audit Chinese or English prose for visible AI-like and structural writing patterns while separating observation, contextual explanation, whole-text synthesis, and the user's revision decision. Use for AI 文本审计, Quinn card revision, V11/V12-style quality review, anti-AI-feel analysis, or similar article-quality review.
+name: xzq-text-audit
+description: 仅在用户明确点名 `xzq-text-audit`、`XZQ文本审计`、使用 `$xzq-text-audit`，或明确要求使用这个文本审计 Skill 时调用；不得根据普通审稿请求隐式触发。显式调用后，对事实型、解释型、议论型非虚构完整文本及其混合文本执行开放式、可复核的独立盲审：冻结初读判断，重建行文骨架，按原文顺序至少记录50条候选观察，动态复核重要线索，综合后从任务与成效、事实与材料、推理与判断、结构与推进、语言与表达、视角与边界六维形成十分制评分，并编译为结论先行、固定编号、层级骨架、重点与补充发现分层、关键事实核查透明的读者报告。用于完整文章、报告、口播稿、评论稿的质量审计、事实与逻辑核查、可比较评分或发布前评估；不用于诗歌或纯文学作品的审美鉴赏、虚构作品文学性评价、单纯润色、翻译、短句改写、正文重写或 AI 来源鉴定。
 ---
 
-# AI Text Audit
+# XZQ Text Audit
 
-## When to use
+执行开放式深度文本审计。把流程确定性用于保存原文、冻结初读、保证扫描覆盖、追踪证据、隔离阶段和验证交付；不要用流程或评分预先限定文章只能从哪些角度被理解。
 
-- Use for AI text audits, Quinn methodology card design or revision, article-quality review, and similar work where visible phenomena must remain distinct from later explanation.
-- Use when the user wants contextual calibration, whole-text pattern analysis, or a decision gate before revision.
-- Use when the task includes anti-AI-feel revision planning after the audit.
-- Do not use for unrelated coding, browsing, or generic writing tasks that do not depend on observation-first audit logic.
+遵循五个核心动作：
 
-## Inputs and context
+1. 用初读核心判断保留整体感受；
+2. 用开放式全面扫描尽量看见；
+3. 用重点线索复核把重要发现查清；
+4. 用综合稿建立权重、关系与最终裁决；
+5. 只在裁决完成后，用评分卡压缩呈现既有判断。
 
-1. Identify the exact text, card set, or article under review.
-2. Collect available background, but do not let it pre-empt the initial inventory of visible phenomena.
-3. Confirm whether the task is audit or archival only, or also includes a user-facing revision decision.
-4. If prior audit notes exist, search for `候选升级级联漏判`, `Quinn`, `高密度关系管理`, `决策门`, `背景可以改变怎么改`, and `V12质量审计与AI感修订决定`.
+报告结构不机械复制内部文件。中间过程负责不漏检和可复核，正式报告用固定编号保持导航稳定，再用层级式行文目录树、六维地图和决定性问题簇帮助读者理解文章怎样成立或失效；评分只提供比较与导航，不替代文字裁决。
 
-## Procedure
+## 适用边界
 
-1. Establish the observation layer before contextual interpretation.
-   - Record only visible language and structural phenomena.
-   - Do not cancel an observation because it seems semantically reasonable, functional, mature, or institutionally normal.
-   - Mark a card as not hit only when the phenomenon is absent, the text is insufficient to observe it, or the relationship under test is already established.
-2. Keep candidates separate instead of collapsing them early.
-   - For each important candidate, log four axes: `现象强度`, `功能支付`, `AI感贡献`, `来源贡献`.
-   - Preserve borderline but visible candidates so they can participate in cross-card pattern checks later.
-3. Add context only after the visible inventory is stable.
-   - Use writing goals, genre, source, and process context to adjust severity, diagnosis framing, remedy, and source explanation.
-   - Context may downgrade a problem, but must not erase a recorded visible phenomenon.
-4. Synthesize local observations into whole-text patterns.
-   - Check `显性导航`, `否定—转折—限定句群`, `平衡补丁`, `递进式复述`, `同构验证`, `段落自动闭环`, `高密度关系管理`, and other accumulated effects relevant to the text.
-5. Produce the audit output.
-   - State the original text or reviewed object.
-   - Summarize the diagnosis.
-   - Include reasons for and against modification.
-   - State consequences of each path.
-   - Present concrete options for the user.
-6. Stop at the decision gate unless the user explicitly asks for a rewrite.
-   - Do not auto-generate a new version merely because the audit found issues.
-7. If anti-AI-feel revision planning is in scope, keep the target explicit.
-   - Reduce visible whole-text artifacts such as `高密度关系管理`, `显性导航`, `同构闭环`, `平衡补丁`, and `全文任务完成感`.
-   - Do not frame the work as detector evasion or mechanical score reduction.
-   - Preserve valid short judgments and colloquial phrasing; trim overfull intensity and redundant heading-echo navigation such as `回到`, `再看`, and `绕一圈`.
+- 审计事实、解释、推论、评价、信息任务与非虚构说服效果，不要求全文属于单一体裁。
+- 允许文本混合叙事、场景、比喻、情绪和文学化表达；只判断它们怎样影响当前非虚构任务，不评价文学价值本身。
+- 诗歌、纯文学散文和虚构作品若没有可裁决的现实任务，说明本 Skill 不适用。
+- 孤立短句、标题和缺少必要上下文的片段通常不启动完整审计；短但任务完整、具有现实使用后果的通知或声明仍可按真实复杂度审计。
+- 不把AI来源判断混入质量审计。用户要求AI痕迹鉴定时改用专门 Skill。
 
-## Efficiency plan
+## 盲审与开放性
 
-- Freeze the initial observation inventory in compact bullets before debating source explanations.
-- Reuse the same keyword set when searching memory: `观察`, `背景可以改变怎么改`, `级联漏判`, `四轴`, `决策门`, `V12质量审计与AI感修订决定`.
-- If a known regression case is relevant, compare against `V11世界杯AI预测稿` before inventing new methodology.
-- Stop early if the task clearly asks for audit archival only; do not drift into rewriting.
+- 默认只读取待检正文。不要主动读取作者背景、写作意图、提示词、生产过程、同项目旧稿、既有报告或用户历史评价。
+- 标题、时间、平台和目标读者只有在用户提供或正文明确依赖时才作为使用语境，不据此替正文补出缺失论证。
+- 外部检索只用于核验事实和必要背景，不能替文章补写理由。
+- 开始时只登记文本身份、盲审边界、事实核查要求和用户明确给出的使用场景。不要先固定单一体裁、评价维度、好文章标准或预期病灶。
+- 允许对任务、体裁和受众的理解在重建、扫描和复核后修正。把它们当作可更新的判断，不当作不可变路由。
 
-## Pitfalls and fixes
+## 运行方式
 
-- Symptom: obvious issues disappear from the observation inventory.
-  - Likely cause: a benign explanation was applied too early.
-  - Fix: restore observation-first logging and defer contextual explanation.
-- Symptom: whole-document AI patterning never becomes visible.
-  - Likely cause: local candidates were downgraded before synthesis.
-  - Fix: keep candidates alive through synthesis and check cross-card accumulation.
-- Symptom: audit output becomes an implicit publish approval.
-  - Likely cause: the decision gate was skipped.
-  - Fix: present options and wait for the user's explicit choice.
-- Symptom: anti-AI-feel edits flatten the article or chase detector scores.
-  - Likely cause: the revision target was defined as “lower AI” instead of reducing visible whole-text artifacts.
-  - Fix: target the named artifact classes, preserve useful human phrasing, and keep self-audit separate from publish approval.
+- 使用`即时运行`处理不需要留档、恢复或展示全过程的任务，不创建运行目录。
+- 使用`持久运行`处理需要保存、续作、较大规模事实核查或正式复核的任务。读取 [runtime-protocol.md](references/runtime-protocol.md)，使用`scripts/manage-audit-run.ps1`维护状态。
+- 使用`完整留痕运行`处理用户明确要求查看全部中间稿、验证Harness全过程或执行复杂回归的任务。选择`full_trace`后，规定的阶段文件必须分别落盘并通过完成门。
+- 不因文章复杂就自动建立项目；不因文章短就自动降低审计责任。运行方式由保存和恢复需求决定，报告深度由文本真实结构决定。
 
-## Verification checklist
+## 工作流
 
-- Visible phenomena were recorded before contextual explanation affected the judgment.
-- Context did not erase any recorded visible phenomenon.
-- Important candidates include the four-axis record or an equivalent separation.
-- The output distinguishes visible phenomena from source and function explanation.
-- The final deliverable includes a decision gate rather than an automatic rewrite.
-- If anti-AI-feel revision is in scope, the plan targets visible artifact classes and does not promise detector evasion.
+### 1. 冻结初读核心判断
+
+第一次完整读完正文后，立即读取 [initial-core-judgment.md](references/initial-core-judgment.md) 并生成初读快照。此时不得先建立分析表、查询外部事实或读取后续专项结论。
+
+记录第一眼的总体质量感受、最可能决定全文的价值或问题、文章似乎在完成的任务、最直接的原文依据、当前不确定性。把直觉和已能从正文确认的观察分开。
+
+完成后冻结该快照。后续分析不得回写或润色它；综合时只能明确证实、收窄、补充或推翻。
+
+### 2. 重建文章
+
+读取 [reconstruction.md](references/reconstruction.md)，分别形成：
+
+- **行文骨架**：按原文顺序说明各部分写了什么、承担什么行文作用、怎样承接推进；不提前裁决。
+- **内容与作用地图**：按正文实际任务记录事实声明、解释链、评价主张、信息任务、行动要求、叙述或修辞作用、关键概念及依赖关系。
+
+不要强迫所有文本形成主张链。议论文本可以形成主张链，解释文本可以形成因果或机制链，任务文本可以形成信息—行动链，混合文本可以同时存在多种关系。
+
+### 3. 开放式全面扫描
+
+读取 [open-scan.md](references/open-scan.md)，沿原文顺序扫描所有可能影响真实性、理解、论证、任务完成、价值或说服效果的现象，同时记录确有解释作用的成立部分。
+
+- 先记录现象，再决定如何命名；一时无法归类的发现仍要保留。
+- 对完整文本至少记录50条有原文依据的候选观察。数量要求只保证扫描足够细，不预设观察角度，也不意味着这些观察都属于问题。
+- 不以初读判断、六维评分、问题配额或预设病灶筛选材料。
+- 可以在记录后添加事实、概念、推理、结构、语言、视角、边界等一个或多个检索标签；标签不是报告栏目。
+- 后续复核可以改变严重度、解释和处理方向，但不得删除第一遍确实可见的现象。若判断不成立，保留原命中并记录驳回理由。
+
+### 4. 重点线索与作用机制复核
+
+读取 [focused-review.md](references/focused-review.md)。从全面扫描和内容地图中选择真正影响质量、价值、理解或使用决定的线索，动态建立调查线程。
+
+后续复核可根据实际重要性，从全面扫描记录中选取值得继续追查和进入最终判断的发现；无需让50条候选观察逐条进入正式报告。
+
+对每条重要线索按实际需要检查：原文行为、所属任务或关系、事实材料、概念口径、推理桥梁、表达强度、结构作用、受众与价值预设、替代解释、反向材料、成立范围和实际影响。不要要求每条线索填满相同字段。
+
+实际需要外部核验时读取 [fact-check.md](references/fact-check.md)。事实状态与事实的证明作用分开记录；事实属实不等于文章的推论成立。
+
+阶段目标是把重要线索查清，不是把全文重新分装进若干维度。既复核问题，也复核能够改变总裁决的真实长处和局部成立部分。
+
+### 5. 综合裁决
+
+读取 [synthesis.md](references/synthesis.md)，综合原文、初读快照、行文骨架、内容地图、全面扫描、重点复核和事实来源。
+
+必须完成：
+
+- 回看初读判断，说明它被证实、收窄、补充或推翻；
+- 判断各重要线索的权重与依赖关系；
+- 检验局部发现是否形成跨段、跨关系或全文性机制；
+- 实际评估最强竞争解释和反向材料；
+- 区分事实正确、推理成立、任务完成和文章有价值；
+- 形成总裁决、实际价值和必要的处理优先级。
+
+综合不是汇总和去重。只有能解释多个局部为什么持续同向、并经更近解释和反向材料检验的关系，才升级为整体机制。不要用上位标签替代近距离分析。
+
+### 6. 评分映射
+
+完成并冻结综合裁决后，读取 [scoring.md](references/scoring.md)，把已经成立的发现映射到任务与成效、事实与材料、推理与判断、结构与推进、语言与表达、视角与边界六个稳定维度。
+
+- 不得为了填满评分维度返回正文寻找问题，不得让分数改变全面扫描的命中与调查线程；
+- 先登记评分契约、适用维度、事实核查状态和承重责任，再使用0—10分锚点；
+- 同一底层发现只在一个主维度完整计分，次级影响只说明后果；
+- 同时生成综合质量评分、独立的核心任务裁决、内部硬门槛和结论把握度；不得把“核心论证部分成立”冒充整篇文章的质量等级；
+- 持久运行把机器可读结果保存到`scorecard.json`，报告渲染同一组值。
+
+### 7. 编译并审校报告
+
+读取 [report.md](references/report.md)，先生成覆盖稿，再压缩为读者稿并完成报告审校。审计说明不编号，正文固定依次呈现：
+
+1. 结论速览；
+2. 总体结论；
+3. 六维评估；
+4. 文章行文骨架；
+5. 重点审计；
+6. 按六维归类的其他关键发现；
+7. 分析收束；
+8. 修改建议，其中先说明修改时应当保留什么；
+9. 关键事实核查；
+10. 来源。
+
+固定编号只稳定导航，不制造内容配额。没有实质内容的章节保留一句明确结论，不凑数、不伪造发现。六维地图负责从评价坐标重新索引正文，重点审计负责详细论证；跨模块带回同一材料不自动等于重复，只要它正在回答不同问题。没有主张链的文本不要伪造主张链。
+
+报告中的决定性判断必须已经在综合稿中获得支持。覆盖稿确保不漏，读者稿负责合并、压缩和可视化，报告审校检查唯一落点、信息增量和评分一致性。外部链接统一放在末尾来源区，不挂在正文判断之后。不要在编辑阶段临时发明结论，也不要把完成理解所需的证据全部留在附件。
+
+## 判断纪律
+
+- 不预设文章站不住，也不预设文章值得肯定。
+- 除完整文本全面扫描至少50条候选观察外，不设问题、优点、调查线程、反例、修订任务或正反材料的数量目标。
+- 不为礼貌添加无裁决意义的优点，不为显得全面制造缺陷。
+- 不把强烈态度本身判成错误；检查它承担了什么事实或推理责任。
+- 不把遗漏无限扩张成“还可以写什么”；只保留会改变结论、范围、价值或使用决定的遗漏。
+- 不仅说“证据不足”。说明现有材料能推出什么、作者继续推出什么、中间缺哪一步、最强替代解释怎样改变判断。
+- 分清可见文本行为、由多项证据支持的文本功能或机制、无法仅凭正文确认的作者动机。
+- 不自动重写正文。审计后只给处理对象、理由、影响和选项，等待用户决定是否进入改稿。
+
+## 持久化与验证
+
+严格遵循 [runtime-protocol.md](references/runtime-protocol.md)。冻结原文和Skill哈希；续作前验证身份；复杂持久审计必须形成独立`synthesis.md`；`full_trace`必须保存并冻结以下过程稿：
+
+- `working/00-initial-core-judgment.md`
+- `working/01-writing-structure.md`
+- `working/02-content-function-map.md`
+- `working/03-open-scan.md`
+- `working/04-focused-review.md`
+- `working/05-report-coverage-draft.md`
+- `working/06-report-editorial-review.md`
+
+允许在`working/investigations/`增加动态调查文件，不要求固定数量。事实来源保存在`sources.md`，综合稿保存在`synthesis.md`，评分保存为`scorecard.json`，最终报告保存在`report.md`。
+
+交付前运行`scripts/validate-audit-run.ps1 -RunPath <目录>`；验证器会执行运行清单和评分卡的完整JSON Schema校验。将验证阶段或整个运行标记完成时，管理脚本必须亲自重跑验证，不能只相信已有状态或手工验证文件。修改Skill后运行`scripts/validate-text-audit-skill.ps1`和`skill-creator/scripts/quick_validate.py`，再依据 [regression-suite.md](references/regression-suite.md) 使用隔离的真实文本前向测试。
+
+## 硬边界
+
+- 不覆盖或修改其他Skill、历史版本的运行和产物。
+- 不用初读判断过滤全面扫描。
+- 不让后续解释删除第一遍命中。
+- 不把开放性误解为无证据自由联想。
+- 不把Harness扩张成固定体裁路由或问题生成器；六维评分只能在综合裁决后映射，不能成为扫描清单、复核路由或问题配额。
+- 不让十分制总评分绕过任务、可靠性、未决事实或边界硬门槛。
+- 不让报告审校改写冻结裁决；发现裁决矛盾时正式退回综合阶段。
+- 不把内部审读冒充事实已经完整核实或发布许可。
+- 不擅自改稿、生成新版本或替用户作价值选择。

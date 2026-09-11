@@ -1,0 +1,7 @@
+interface:
+  display_name: "XZQ 文本审计"
+  short_description: "开放扫描、重点复核、六维评分与固定结构的完整文本审计"
+  default_prompt: "使用 $xzq-text-audit 对这篇完整文本执行开放式独立盲审，冻结初读、重建行文、全面扫描、重点复核、综合评分，并生成可直接发布的完整审计报告。不要改写正文。"
+
+policy:
+  allow_implicit_invocation: false

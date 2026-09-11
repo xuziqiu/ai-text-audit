@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.xzq/skills/xzq-text-audit/run-manifest.schema.json",
+  "title": "XZQ Text Audit Run Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "run_id", "created_at", "updated_at", "mode",
+    "artifact_profile", "status", "scope", "source", "skill", "scoring", "stages",
+    "artifacts", "artifact_hashes", "limitations", "history"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "mode": { "const": "durable" },
+    "artifact_profile": { "enum": ["compact", "full_trace"] },
+    "status": { "enum": ["in_progress", "partial", "needs_input", "superseded", "failed", "completed"] },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requested", "fact_check"],
+      "properties": {
+        "requested": { "type": "string", "minLength": 1 },
+        "fact_check": { "enum": ["when_material", "included", "skipped"] }
+      }
+    },
+    "source": { "$ref": "#/$defs/identity" },
+    "skill": { "$ref": "#/$defs/identity" },
+    "scoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "scale", "weights"],
+      "properties": {
+        "version": { "const": "xzq-text-audit-score-v1" },
+        "scale": { "const": "0-10" },
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["task_fulfillment", "evidence_grounding", "reasoning_explanation", "structure_organization", "language_expression", "perspective_boundary"],
+          "properties": {
+            "task_fulfillment": { "const": 25 },
+            "evidence_grounding": { "const": 20 },
+            "reasoning_explanation": { "const": 20 },
+            "structure_organization": { "const": 12 },
+            "language_expression": { "const": 10 },
+            "perspective_boundary": { "const": 13 }
+          }
+        }
+      }
+    },
+    "stages": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intake", "first_read", "reconstruction", "open_scan", "focused_review", "fact_check", "synthesis", "report", "validation"],
+      "properties": {
+        "intake": { "$ref": "#/$defs/stageState" },
+        "first_read": { "$ref": "#/$defs/stageState" },
+        "reconstruction": { "$ref": "#/$defs/stageState" },
+        "open_scan": { "$ref": "#/$defs/stageState" },
+        "focused_review": { "$ref": "#/$defs/stageState" },
+        "fact_check": { "$ref": "#/$defs/stageState" },
+        "synthesis": { "$ref": "#/$defs/stageState" },
+        "report": { "$ref": "#/$defs/stageState" },
+        "validation": { "$ref": "#/$defs/stageState" }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["working_notes", "initial_core_judgment", "trace_dir", "sources", "synthesis", "scorecard", "report", "validation"],
+      "properties": {
+        "working_notes": { "type": "string", "minLength": 1 },
+        "initial_core_judgment": { "type": "string", "minLength": 1 },
+        "trace_dir": { "type": ["string", "null"] },
+        "sources": { "type": "string", "minLength": 1 },
+        "synthesis": { "type": "string", "minLength": 1 },
+        "scorecard": { "type": "string", "minLength": 1 },
+        "report": { "type": "string", "minLength": 1 },
+        "validation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "artifact_hashes": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" }
+    },
+    "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["at", "event", "note"],
+        "properties": {
+          "at": { "type": "string", "format": "date-time" },
+          "event": { "type": "string", "minLength": 1 },
+          "stage": { "type": ["string", "null"] },
+          "from": { "type": ["string", "null"] },
+          "to": { "type": ["string", "null"] },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" }
+      }
+    },
+    "stageState": { "enum": ["pending", "in_progress", "completed", "partial", "needs_input", "not_applicable", "failed"] }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.xzq/skills/xzq-text-audit/scorecard.schema.json",
+  "title": "XZQ Text Audit Scorecard",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scoring_version", "assessment_contract", "dimensions", "composite", "core_task", "gates", "verdict"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "scoring_version": { "const": "xzq-text-audit-score-v1" },
+    "assessment_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object", "primary_task", "use_context", "fact_check_status"],
+      "properties": {
+        "object": { "type": "string", "minLength": 1 },
+        "primary_task": { "type": "string", "minLength": 1 },
+        "use_context": { "type": "string", "minLength": 1 },
+        "fact_check_status": { "enum": ["complete", "partial", "skipped", "not_applicable"] }
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_fulfillment", "evidence_grounding", "reasoning_explanation", "structure_organization", "language_expression", "perspective_boundary"],
+      "properties": {
+        "task_fulfillment": { "$ref": "#/$defs/dimension" },
+        "evidence_grounding": { "$ref": "#/$defs/dimension" },
+        "reasoning_explanation": { "$ref": "#/$defs/dimension" },
+        "structure_organization": { "$ref": "#/$defs/dimension" },
+        "language_expression": { "$ref": "#/$defs/dimension" },
+        "perspective_boundary": { "$ref": "#/$defs/dimension" }
+      }
+    },
+    "composite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score_10", "calculated_quality_band", "final_quality_band", "quality_label"],
+      "properties": {
+        "score_10": { "type": "number", "minimum": 0, "maximum": 10, "multipleOf": 0.1 },
+        "calculated_quality_band": { "$ref": "#/$defs/qualityBand" },
+        "final_quality_band": { "$ref": "#/$defs/qualityBand" },
+        "quality_label": { "type": "string", "minLength": 1 }
+      }
+    },
+    "core_task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "display_name", "status", "label", "explanation"],
+      "properties": {
+        "kind": { "enum": ["argument", "explanation", "information", "action", "other"] },
+        "display_name": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["established", "mostly_established", "partially_established", "not_established", "not_applicable"] },
+        "label": { "type": "string", "minLength": 1 },
+        "explanation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "triggered", "reason"],
+        "properties": {
+          "id": { "enum": ["G1", "G2", "G3", "G4"] },
+          "triggered": { "type": "boolean" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confidence", "confidence_explanation", "provisional"],
+      "properties": {
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "confidence_explanation": { "type": "string", "minLength": 1 },
+        "provisional": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "qualityBand": { "enum": ["excellent", "strong", "workable", "needs_substantial_revision", "failed"] },
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicable", "score", "weight", "confidence", "load_bearing", "verdict", "strengths", "limitations", "detail_refs"],
+      "properties": {
+        "applicable": { "type": "boolean" },
+        "score": { "type": ["number", "null"], "minimum": 0, "maximum": 10, "multipleOf": 0.5 },
+        "weight": { "type": "number", "exclusiveMinimum": 0 },
+        "confidence": { "enum": ["high", "medium", "low", "not_applicable"] },
+        "load_bearing": { "type": "boolean" },
+        "verdict": { "type": "string", "minLength": 1 },
+        "strengths": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "detail_refs": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+      }
+    }
+  }
+}
